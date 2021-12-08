@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://dlt.apfs.xyz:3306/DLT
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: MinSeong9392
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+server:
+  port: 80

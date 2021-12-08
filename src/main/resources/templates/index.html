@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="include/layouts/default"
+>
+<head>
+    <title>홈</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--<div class="card mb-4">
+                    <div class="card-header">사용자</div>
+                    <div class="card-body">
+                        <form th:if="${session.login == null}" method="post" action="/">
+                            <input type="text" class="form-control mb-1" name="id" placeholder="사용자 이름">
+                            <input type="password" class="form-control mb-3" name="password" placeholder="암호">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-dark btn-sm btn-block">로그인</button>
+                            </div>
+                        </form>
+                        <div th:if="${session.login != null}">
+                            <h6 style="text-align: center">admin님 환영합니다!</h6>
+                            <div class="d-grid">
+                                <a class="btn btn-dark btn-sm btn-block" th:href="@{/logout}" role="button">로그아웃</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="card mb-4">
+                    <div class="card-header">학년</div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a th:classappend="${grade == 0} ? 'active'" th:href="@{/(grade=0, group=${group})}"  class="list-group-item list-group-item-action">모든 학년</a>
+                            <a th:each="i : ${#numbers.sequence(1,  gradeCount)}" th:utext="${i} + '학년'" th:href="@{/(grade=${i}, group=${group})}" th:classappend="${grade == i} ? 'active'" class="list-group-item list-group-item-action"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">반</div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a th:classappend="${group == 0} ? 'active'" th:href="@{/(grade=${grade}, group=0)}" class="list-group-item list-group-item-action">모든 반</a>
+                            <a th:each="i : ${#numbers.sequence(1,  groupCount)}" th:utext="${i} + '반'" th:href="@{/(grade=${grade}, group=${i})}" th:classappend="${group == i} ? 'active'" class="list-group-item list-group-item-action"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header">학생 목록</div>
+                    <div class="card-body">
+                        <div th:if="${students.totalElements == 0}">
+                            <h3 style="text-align: center;">검색 결과가 없습니다!</h3>
+                        </div>
+                        <div th:if="${students.totalElements != 0}">
+                            <div class="card mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li th:each="student : ${students}" class="list-group-item">
+                                        <span th:text="${student.grade} + '학년 ' + ${#numbers.formatInteger(student.group, 2)} + '반 ' + ${#numbers.formatInteger(student.number, 2)} + '번'" class="badge bg-dark"></span>
+                                        <span th:if="${student.temperatureList.isEmpty() == false && #dates.format(student.temperatureList[0].date, 'yyyy-MM-dd') == #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:text="${student.temperatureList[0].temperature} + '℃'" class="badge bg-dark"></span>
+                                        <span th:text="${student.name}"></span>
+                                        <a class="btn btn-dark btn-sm" th:href="@{/detail(id=${student.id}, grade=${grade}, group=${group})}" role="button" style="float: right;"><i class="fas fa-info-circle"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <ul class="pagination justify-content-center m-0" >
+                                <li class="page-item" th:classappend="${1 == students.pageable.pageNumber + 1} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/(page=${students.pageable.pageNumber - 1}, grade=${grade}, group=${group})}">&laquo;</a>
+                                </li>
+                                <li class="page-item" th:classappend="${i == students.pageable.pageNumber + 1} ? 'active'" th:each="i : ${#numbers.sequence(beginPage, endPage)}">
+                                    <a class="page-link" th:href="@{/(page=${i - 1}, grade=${grade}, group=${group})}" th:text="${i}"></a>
+                                </li>
+                                <li class="page-item" th:classappend="${students.totalPages == students.pageable.pageNumber + 1} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/(page=${students.pageable.pageNumber + 1}, grade=${grade}, group=${group})}">&raquo;</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

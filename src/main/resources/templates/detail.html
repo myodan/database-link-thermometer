@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="include/layouts/default"
+>
+<head>
+    <title>상세</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="card mb-3">
+            <div class="card-header">학생 정보</div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">학번</th>
+                        <th scope="col">학년</th>
+                        <th scope="col">반</th>
+                        <th scope="col">번호</th>
+                        <th scope="col">이름</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${student.id}"></td>
+                        <td th:text="${student.grade}"></td>
+                        <td th:text="${student.group}"></td>
+                        <td th:text="${student.number}"></td>
+                        <td th:text="${student.name}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header">측정 기록(최근 20개)</div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">온도</th>
+                        <th scope="col">측정일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="detail : ${data}">
+                        <td th:text="${detail.temperature}"></td>
+                        <td th:text="${detail.date}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a class="btn btn-dark" th:href="@{/(grade=${grade}, group=${group})}" role="button"><i class="fas fa-caret-square-left"></i> 돌아가기</a>
+    </div>
+</div>
+</div>
+</body>
+</html>
